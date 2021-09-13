@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MGarciaLeenkenGroupModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="CatEntidadFederativa">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Estado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Empleado" Relationship="Self.FK__Empleado__IdEsta__1273C1CD" FromRole="CatEntidadFederativa" ToRole="Empleado" />
+  </EntityType>
+  <EntityType Name="Empleado">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NumeroNomina" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ApellidoPaterno" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ApellidoMaterno" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="IdEstado" Type="Int32" />
+    <NavigationProperty Name="CatEntidadFederativa" Relationship="Self.FK__Empleado__IdEsta__1273C1CD" FromRole="Empleado" ToRole="CatEntidadFederativa" />
+  </EntityType>
+  <Association Name="FK__Empleado__IdEsta__1273C1CD">
+    <End Role="CatEntidadFederativa" Type="Self.CatEntidadFederativa" Multiplicity="0..1" />
+    <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CatEntidadFederativa">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Empleado">
+        <PropertyRef Name="IdEstado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MGarciaLeenkenGroupEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="CatEntidadFederativa" EntityType="Self.CatEntidadFederativa" />
+    <EntitySet Name="Empleado" EntityType="Self.Empleado" />
+    <AssociationSet Name="FK__Empleado__IdEsta__1273C1CD" Association="Self.FK__Empleado__IdEsta__1273C1CD">
+      <End Role="CatEntidadFederativa" EntitySet="CatEntidadFederativa" />
+      <End Role="Empleado" EntitySet="Empleado" />
+    </AssociationSet>
+    <FunctionImport Name="CatEntidadFederativaGetAll" ReturnType="Collection(MGarciaLeenkenGroupModel.CatEntidadFederativaGetAll_Result)" />
+    <FunctionImport Name="EmpleadoAdd">
+      <Parameter Name="NumeroNomina" Mode="In" Type="String" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="ApellidoPaterno" Mode="In" Type="String" />
+      <Parameter Name="ApellidoMaterno" Mode="In" Type="String" />
+      <Parameter Name="IdEstado" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="EmpleadoDelete">
+      <Parameter Name="IdEmpleado" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="EmpleadoGetAll" ReturnType="Collection(MGarciaLeenkenGroupModel.EmpleadoGetAll_Result)" />
+    <FunctionImport Name="EmpleadoGetById" ReturnType="Collection(MGarciaLeenkenGroupModel.EmpleadoGetById_Result)">
+      <Parameter Name="IdEmpleado" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="EmpleadoUpdate">
+      <Parameter Name="IdEmpleado" Mode="In" Type="Int32" />
+      <Parameter Name="NumeroNomina" Mode="In" Type="String" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="ApellidoPaterno" Mode="In" Type="String" />
+      <Parameter Name="ApellidoMaterno" Mode="In" Type="String" />
+      <Parameter Name="IdEstado" Mode="In" Type="Int32" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="CatEntidadFederativaGetAll_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="Estado" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="EmpleadoGetAll_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="NumeroNomina" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="Nombre" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="ApellidoPaterno" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="ApellidoMaterno" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="IdEstado" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="EmpleadoGetById_Result">
+    <Property Type="String" Name="NumeroNomina" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="Nombre" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="ApellidoPaterno" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="ApellidoMaterno" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="IdEstado" Nullable="true" />
+  </ComplexType>
+</Schema>
